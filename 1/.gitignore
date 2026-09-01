@@ -82,3 +82,8 @@ CMakeLists.txt.user*
 .uic/
 /build*/
 /.qtcreator/
+
+
+
+# runtime data (contains personal info, do not commit)
+hospital_data.txt

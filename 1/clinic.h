@@ -15,13 +15,13 @@ public:
     int currentCount;         // 当前已预约人数
     QString address;          // 门诊地址
     QString phone;            // 联系电话
-    QList<Appointment> appointments; // 该门诊的预约列表
+    QList<Appointment> appointments; // 该门诊的预约列表（1对N）
 
     Clinic(QString no="", QString name="", QString dNo="", QString time="",
            int cap=0, QString addr="", QString tel="");
 
     bool canBook() const;                          // 是否还能预约（容量是否够）
     bool addAppointment(const Appointment& app);   // 添加预约
-    int getAvailableSlots() const;
+    int getAvailableSlots() const;            // 获取剩余可预约号源数
 };
 #endif

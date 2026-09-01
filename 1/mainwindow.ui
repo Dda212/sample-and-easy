@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>563</width>
     <height>600</height>
    </rect>
   </property>
@@ -17,8 +17,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>30</y>
+      <x>60</x>
+      <y>10</y>
       <width>420</width>
       <height>466</height>
      </rect>
@@ -65,6 +65,9 @@
      </item>
      <item>
       <widget class="QTableWidget" name="tableQuery">
+       <property name="visible">
+        <bool>false</bool>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
@@ -115,7 +118,7 @@
         <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
        </property>
        <attribute name="verticalHeaderStretchLastSection">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <column>
         <property name="text">
@@ -156,13 +159,23 @@
      </item>
      <item>
       <widget class="QLineEdit" name="editSearchPhone">
+       <property name="visible">
+        <bool>false</bool>
+       </property>
        <property name="placeholderText">
-        <string extracomment="输入电话号码后按回车查询"/>
+        <string>输入电话号码后按回车查询</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboSearchClinic"/>
+      <widget class="QComboBox" name="comboSearchClinic">
+       <property name="visible">
+        <bool>false</bool>
+       </property>
+       <property name="placeholderText">
+        <string>按门诊下拉框查询</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -172,7 +185,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>563</width>
      <height>17</height>
     </rect>
    </property>
