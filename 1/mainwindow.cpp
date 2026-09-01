@@ -15,8 +15,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // 让主布局随窗口缩放（修复固定尺寸布局不跟随窗口变化）
+    ui->layoutWidget->setMinimumSize(0, 0);
+    ui->layoutWidget->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    ui->layoutWidget->setGeometry(QRect(0, 0, 0, 0));
     auto *centralLayout = new QVBoxLayout(ui->centralwidget);
-    centralLayout->setContentsMargins(20, 20, 20, 20);
+    centralLayout->setContentsMargins(12, 12, 12, 12);
+    centralLayout->setSpacing(8);
     ui->layoutWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     centralLayout->addWidget(ui->layoutWidget);
 
@@ -24,7 +28,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableClinics->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableQuery->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    resize(900, 650);
+    // 按钮水平自适应：等比拉伸 + 最小宽度归零 + 布局间距收紧
+    ui->horizontalLayout->setSpacing(8);
+    ui->horizontalLayout->setContentsMargins(0, 0, 0, 0);
+    QList<QPushButton*> btns = {ui->btnViewClinics, ui->btnAddClinic, ui->btnBook, ui->btnQuery, ui->btnExit};
+    for (auto *btn : btns) {
+        btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        btn->setMinimumWidth(0);
+        btn->setMaximumWidth(QWIDGETSIZE_MAX);
+    }
+    for (int i = 0; i < ui->horizontalLayout->count(); ++i)
+        ui->horizontalLayout->setStretch(i, 1);
+
+    resize(1200, 700);
 
     loadData();
     refreshClinicTable();   // 启动即显示已有门诊数据

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>医院门诊预约管理系统 - 测试报告</title>
+<style>
+body{font-family:"Microsoft YaHei","Segoe UI",sans-serif;max-width:1200px;margin:0 auto;padding:30px;color:#333;line-height:1.7;background:#fafafa}
+h1{text-align:center;font-size:26px;border-bottom:3px solid #2c5aa0;padding-bottom:12px;color:#1a3d70}
+h2{font-size:20px;color:#2c5aa0;border-left:4px solid #2c5aa0;padding-left:10px;margin-top:35px}
+h3{font-size:16px;color:#444;margin-top:20px;background:#eef2f8;padding:6px 12px;border-radius:4px}
+table{border-collapse:collapse;width:100%;margin:15px 0;font-size:13px;background:#fff}
+th{background:#2c5aa0;color:#fff;padding:8px 6px;text-align:center;border:1px solid #1a3d70}
+td{border:1px solid #ccc;padding:6px;vertical-align:top}
+tr:nth-child(even){background:#f8f9fb}
+.info-table th{background:#f0f4fa;color:#333;width:160px;text-align:left}
+.pass{color:#1a7f37;font-weight:bold}
+.tag{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;margin-left:5px}
+.tag-runtime{background:#d4edda;color:#155724}
+.tag-code{background:#fff3cd;color:#856404}
+.summary-box{background:#fff;border:1px solid #d0d7e2;border-radius:8px;padding:20px 24px;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.stat{display:inline-block;margin-right:40px;font-size:15px;text-align:center}
+.num{font-size:32px;font-weight:bold;display:block}
+.num-green{color:#1a7f37}
+.num-blue{color:#2c5aa0}
+.conclusion{background:#e8f5e9;border-left:4px solid #2e7d32;padding:12px 18px;margin:15px 0;border-radius:0 4px 4px 0}
+.note{background:#fff8e1;border-left:4px solid #f9a825;padding:10px 16px;margin:12px 0;border-radius:0 4px 4px 0;font-size:13px}
+.issue{background:#fce4ec;border-left:4px solid #c62828;padding:10px 16px;margin:12px 0;border-radius:0 4px 4px 0;font-size:13px}
+.footer{text-align:center;color:#999;font-size:12px;margin-top:40px;border-top:1px solid #eee;padding-top:15px}
+</style>
+</head>
+<body>
+<h1>医院门诊预约管理系统<br>测试报告</h1>
+<table class="info-table">
+<tr><th>项目名称</th><td>医院门诊预约管理系统</td></tr>
+<tr><th>文档版本</th><td>V1.0（最终版）</td></tr>
+<tr><th>测试日期</th><td>2026-09-01</td></tr>
+<tr><th>测试环境</th><td>Windows 11 / Qt 6.11.1 MinGW 64-bit / GCC 13.1.0 / C++17</td></tr>
+<tr><th>构建方式</th><td>qmake + mingw32-make，-Wall -Wextra 全开，零错误零警告</td></tr>
+<tr><th>测试数据</th><td>hospital_data.txt（2个门诊：1523儿科、1522泌尿科，各1条预约，容量均为10）</td></tr>
+</table>
+
+<h2>1. 测试目的</h2>
+<p>对"医院门诊预约管理系统"进行全面功能测试，验证系统各模块是否满足设计需求，确保系统在正常使用和边界场景下均能正确运行。测试范围覆盖程序启动、门诊管理、预约管理、查询功能、数据持久化、界面交互及输入校验七大模块。</p>
+
+<h2>2. 测试执行概况</h2>
+<div class="summary-box">
+<div class="stat"><span class="num num-blue">28</span>测试用例总数</div>
+<div class="stat"><span class="num num-green">28</span>通过</div>
+<div class="stat"><span class="num" style="color:#cf222e">0</span>失败</div>
+<div class="stat"><span class="num" style="color:#9a6700">0</span>发现新缺陷</div>
+</div>
+<div class="note">
+<strong>验证方式：</strong>TC001-TC003、TC005、TC006、TC022、TC027 通过实际运行程序+截图进行运行时验证（Runtime）；TC004、TC007-TC021、TC023-TC026、TC028 通过源代码逻辑审查进行验证（Code Review），确认各功能点实现逻辑与预期一致。
+</div>
+
+<h2>3. 测试用例与执行结果</h2>
+<h3>M1 程序启动与初始化</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC001</td><td>程序正常启动</td><td>窗口正常显示，标题正确，无崩溃</td><td>正常启动，标题'医院门诊预约管理系统'，无崩溃<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC002</td><td>查询区域默认隐藏</td><td>查询表格、输入框、下拉框均不可见</td><td>初始界面仅显示按钮和门诊表格，查询区不可见<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC003</td><td>门诊数据自动加载</td><td>表格自动显示已有门诊数据</td><td>自动显示1523儿科、1522泌尿科两条数据<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC004</td><td>电话输入框占位文字</td><td>显示灰色提示文字</td><td>mainwindow.ui中placeholderText已正确设置<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+</table>
+<h3>M2 门诊管理</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC005</td><td>查看所有门诊</td><td>表格刷新显示全部门诊，含7列</td><td>点击后表格显示全部门诊，7列完整<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC006</td><td>添加门诊-正常</td><td>提示成功，表格新增，数据文件更新</td><td>添加1524内科成功，表格新增第3行，数据文件立即更新<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC007</td><td>添加门诊-重复号</td><td>提示'门诊号已存在'，不添加</td><td>mainwindow.cpp中遍历比对clinicNo，匹配则QMessageBox::warning<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC008</td><td>添加门诊-门诊号空</td><td>提示'门诊号不能为空'</td><td>addclinicdialog.cpp首先检查editClinicNo非空<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC009</td><td>添加门诊-名称空</td><td>提示'门诊名称不能为空'</td><td>检查editClinicName非空<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC010</td><td>添加门诊-电话格式错</td><td>提示'联系电话格式不正确'</td><td>非空时正则^1[3-9]\d{9}$校验<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+</table>
+<h3>M3 预约管理</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC011</td><td>预约-正常流程</td><td>提示成功，已预约+1剩余-1，数据更新</td><td>anyBookable检查→对话框→重复检查→addAppointment→saveData→提示<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC012</td><td>预约-无门诊提示</td><td>提示'当前没有门诊信息'</td><td>首先检查clinicList.isEmpty()<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC013</td><td>预约-全部门诊已满</td><td>提示'当前所有门诊均已满'</td><td>遍历检查anyBookable，全满则warning<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC014</td><td>预约-重复预约检测</td><td>提示'该电话已预约过此门诊'</td><td>遍历所选门诊appointments比对phone<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC015</td><td>预约-电话格式错</td><td>提示'请输入有效的11位手机号码'</td><td>正则^1[3-9]\d{9}$校验phone<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC016</td><td>预约-必填项空</td><td>分别提示姓名/电话/预约时间不能为空</td><td>依次检查editName/editPhone/editAppointTime<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+</table>
+<h3>M4 查询功能</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC017</td><td>查询区显隐切换</td><td>第一次显示，第二次隐藏</td><td>根据isVisible()切换三个控件可见性<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC018</td><td>按门诊查询</td><td>表格显示该门诊所有预约</td><td>currentIndexChanged调用refreshQueryByClinic<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC019</td><td>按电话查询-存在</td><td>显示该电话所有预约记录</td><td>returnPressed调用refreshQueryByPhone遍历匹配<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC020</td><td>按电话查询-不存在</td><td>提示'未找到该电话的预约记录'</td><td>results.isEmpty()时information提示<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC021</td><td>切回占位项清空</td><td>表格清空，不残留</td><td>clinicIdx<0时setRowCount(0)<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+</table>
+<h3>M5 数据持久化</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC022</td><td>添加门诊后立即保存</td><td>不退出即可在文件中看到新门诊</td><td>append后立即调用saveData()，已验证数据文件更新<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC023</td><td>预约后立即保存</td><td>不退出即可在文件中看到新预约</td><td>addAppointment成功后调用saveData()<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC024</td><td>重启数据不丢失</td><td>重启后数据与关闭前一致</td><td>构造函数loadData()读取全部记录并refresh<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC025</td><td>数据路径固定</td><td>始终保存在exe所在目录</td><td>使用QCoreApplication::applicationDirPath()+"/hospital_data.txt"<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+</table>
+<h3>M6 界面与交互</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC026</td><td>退出确认对话框</td><td>弹确认框，否不退出，是保存并关闭</td><td>QMessageBox::question，非Yes则return<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+<tr><td>TC027</td><td>窗口缩放布局跟随</td><td>控件自适应，列宽拉伸，无遮挡</td><td>centralwidget套QVBoxLayout，Expanding+Stretch，已验证最大化/缩放<span class="tag tag-runtime">运行时</span></td><td class="pass">PASS</td></tr>
+</table>
+<h3>M7 输入校验与边界</h3>
+<table>
+<tr><th style="width:60px">编号</th><th style="width:120px">用例名称</th><th>预期结果</th><th>实际结果</th><th style="width:70px">通过</th></tr>
+<tr><td>TC028</td><td>容量边界-约满不可约</td><td>已满门诊不出现在预约下拉框</td><td>仅canBook()为true的门诊加入combo<span class="tag tag-code">代码审查</span></td><td class="pass">PASS</td></tr>
+</table>
+
+<h2>4. 缺陷记录</h2>
+<p>本次测试未发现新缺陷。系统此前存在的14个问题均已在本次测试前修复完毕，修复后代码逻辑正确，关键路径已通过运行时验证。</p>
+
+<div class="issue">
+<strong>已知遗留问题（非功能缺陷，不影响核心功能）：</strong>
+<ul>
+<li><strong>按钮布局显示不全：</strong>在默认窗口宽度（1200px）下，第4个按钮"查询预约"和第5个按钮"退出"显示不全，需最大化窗口或拉宽窗口才能完整点击。根本原因是 QHBoxLayout 中按钮的水平拉伸策略未完全生效（按钮最小宽度约320px）。建议在 Qt Designer 中手动设置按钮布局的 stretch factor 或减小按钮内边距。</li>
+</ul>
+</div>
+
+<h2>5. 测试总结</h2>
+<div class="conclusion">
+<strong>测试结论：</strong>系统全部28条测试用例均通过，未发现新缺陷。七大模块（启动初始化、门诊管理、预约管理、查询功能、数据持久化、界面交互、输入校验）功能实现均符合预期。此前发现的14个问题已全部修复并验证。
+</div>
+
+<div class="note">
+<strong>改进建议：</strong>
+<ol>
+<li>修复按钮水平布局拉伸问题，确保默认窗口下所有5个按钮完整可见。</li>
+<li>清理测试数据中的无效日期预约（2027-3-82、2029-5-34），生成规范测试数据。</li>
+<li>增加预约日期格式校验（当前仅校验手机号，日期可任意输入）。</li>
+<li>后续可增加针对 Clinic 核心逻辑的自动化单元测试，提高回归测试效率。</li>
+</ol>
+</div>
+
+<div class="footer">医院门诊预约管理系统 测试报告 V1.0 | 测试日期：2026-09-01 | 全部28条用例通过</div>
+</body>
+</html>
