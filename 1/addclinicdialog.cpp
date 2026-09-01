@@ -1,6 +1,7 @@
 #include "addclinicdialog.h"
 #include "ui_addclinicdialog.h"
 #include <QMessageBox>
+#include <QRegularExpression>
 
 AddClinicDialog::AddClinicDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::AddClinicDialog)
@@ -23,6 +24,16 @@ void AddClinicDialog::on_btnOk_clicked() {
         return;
     }
 
+    // 联系电话非空时校验格式
+    QString clinicPhone = ui->editPhone->text().trimmed();
+    if (!clinicPhone.isEmpty()) {
+        QRegularExpression phoneRe("^1[3-9]\\d{9}$");
+        if (!phoneRe.match(clinicPhone).hasMatch()) {
+            QMessageBox::warning(this, "提示", "联系电话格式不正确，请输入有效的11位手机号码！");
+            return;
+        }
+    }
+
     resultClinic.clinicNo     = ui->editClinicNo->text().trimmed();
     resultClinic.clinicName   = ui->editClinicName->text().trimmed();
     resultClinic.doctorNo     = ui->editDoctorNo->text().trimmed();
@@ -30,7 +41,7 @@ void AddClinicDialog::on_btnOk_clicked() {
     resultClinic.capacity     = ui->spinCapacity->value();
     resultClinic.currentCount = 0;
     resultClinic.address      = ui->editAddress->text().trimmed();
-    resultClinic.phone        = ui->editPhone->text().trimmed();
+    resultClinic.phone        = clinicPhone;
 
     this->accept();
 }

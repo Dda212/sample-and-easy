@@ -5,13 +5,29 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
+#include <QCoreApplication>
+#include <QVBoxLayout>
+#include <QHeaderView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    // 所有界面属性已在 .ui 中设置，这里只需加载数据
+
+    // 让主布局随窗口缩放（修复固定尺寸布局不跟随窗口变化）
+    auto *centralLayout = new QVBoxLayout(ui->centralwidget);
+    centralLayout->setContentsMargins(20, 20, 20, 20);
+    ui->layoutWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    centralLayout->addWidget(ui->layoutWidget);
+
+    // 表格列宽自适应
+    ui->tableClinics->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableQuery->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    resize(900, 650);
+
     loadData();
+    refreshClinicTable();   // 启动即显示已有门诊数据
 }
 
 MainWindow::~MainWindow() {
@@ -41,6 +57,7 @@ void MainWindow::on_btnAddClinic_clicked() {
 
         clinicList.append(newClinic);
         refreshClinicTable();
+        saveData();   // 立即持久化，避免异常退出丢失
         QMessageBox::information(this, "成功", "门诊添加成功！");
     }
 }
@@ -52,10 +69,33 @@ void MainWindow::on_btnBook_clicked() {
         return;
     }
 
+    // 检查是否有可预约的门诊
+    bool anyBookable = false;
+    for (const Clinic &c : clinicList) {
+        if (c.canBook()) { anyBookable = true; break; }
+    }
+    if (!anyBookable) {
+        QMessageBox::warning(this, "提示", "当前所有门诊均已满，无法预约！");
+        return;
+    }
+
     BookDialog dialog(clinicList, this);
     if (dialog.exec() == QDialog::Accepted) {
         int idx = dialog.getSelectedClinicIndex();
+        if (idx < 0 || idx >= clinicList.size()) {
+            QMessageBox::warning(this, "预约失败", "未选择有效的门诊！");
+            return;
+        }
         Appointment app = dialog.getAppointment();
+
+        // 重复预约检查：同一电话不可重复预约同一门诊
+        for (const Appointment &existing : clinicList[idx].appointments) {
+            if (existing.phone == app.phone) {
+                QMessageBox::warning(this, "预约失败",
+                                     "该电话已预约过此门诊，不可重复预约！");
+                return;
+            }
+        }
 
         bool success = clinicList[idx].addAppointment(app);
         if (success) {
@@ -63,6 +103,7 @@ void MainWindow::on_btnBook_clicked() {
                                      "已成功预约：" + clinicList[idx].clinicName
                                          + "\n预约人：" + app.name);
             refreshClinicTable();
+            saveData();   // 立即持久化
         } else {
             QMessageBox::warning(this, "预约失败", "该门诊已满，无法预约！");
         }
@@ -95,15 +136,26 @@ void MainWindow::on_btnQuery_clicked() {
 
 // ========== 退出系统 ==========
 void MainWindow::on_btnExit_clicked() {
+    if (QMessageBox::question(this, "确认退出", "确定要退出系统吗？",
+                               QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) {
+        return;
+    }
     saveData();
     this->close();
 }
 
 // ========== 按门诊下拉框查询 ==========
 void MainWindow::on_comboSearchClinic_currentIndexChanged(int index) {
+    // index < 0（如 clear() 触发）时清空查询结果，避免误填第一个门诊
+    if (index < 0) {
+        ui->tableQuery->setRowCount(0);
+        return;
+    }
     int clinicIdx = ui->comboSearchClinic->itemData(index).toInt();
     if (clinicIdx >= 0 && clinicIdx < clinicList.size()) {
         refreshQueryByClinic(clinicIdx);
+    } else {
+        ui->tableQuery->setRowCount(0);   // 选中"-- 按门诊查询 --"占位项时清空
     }
 }
 
@@ -178,7 +230,7 @@ void MainWindow::refreshQueryByPhone(const QString &phone) {
 
 // ========== 保存数据 ==========
 void MainWindow::saveData() {
-    QFile file("hospital_data.txt");
+    QFile file(QCoreApplication::applicationDirPath() + "/hospital_data.txt");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return;
 
     QTextStream out(&file);
@@ -203,7 +255,7 @@ void MainWindow::saveData() {
 
 // ========== 加载数据 ==========
 void MainWindow::loadData() {
-    QFile file("hospital_data.txt");
+    QFile file(QCoreApplication::applicationDirPath() + "/hospital_data.txt");
     if (!file.exists()) return;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
 
@@ -238,4 +290,9 @@ void MainWindow::loadData() {
         }
     }
     file.close();
+
+    // 防御：若加载到的预约数超过容量，自动将容量补齐，避免剩余号源为负
+    for (Clinic &c : clinicList) {
+        if (c.currentCount > c.capacity) c.capacity = c.currentCount;
+    }
 }
