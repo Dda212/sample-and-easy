@@ -15,6 +15,9 @@ public:
     explicit AddClinicDialog(QWidget *parent = nullptr);
     ~AddClinicDialog();
 
+    // 切换到"编辑"模式：预填已有门诊数据，并锁定门诊号（门诊号是主键）
+    void setEditClinic(const Clinic &clinic);
+
     Clinic getClinic() const;
 
 private slots:

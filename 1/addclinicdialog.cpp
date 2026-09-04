@@ -7,11 +7,22 @@ AddClinicDialog::AddClinicDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::AddClinicDialog)
 {
     ui->setupUi(this);
-    // 所有界面属性已在 .ui 中设置
 }
 
 AddClinicDialog::~AddClinicDialog() {
     delete ui;
+}
+
+void AddClinicDialog::setEditClinic(const Clinic &clinic) {
+    setWindowTitle("编辑门诊");
+    ui->editClinicNo->setText(clinic.clinicNo);
+    ui->editClinicNo->setReadOnly(true);
+    ui->editClinicName->setText(clinic.clinicName);
+    ui->editDoctorNo->setText(clinic.doctorNo);
+    ui->editConsultTime->setText(clinic.consultTime);
+    ui->spinCapacity->setValue(clinic.capacity);
+    ui->editAddress->setText(clinic.address);
+    ui->editPhone->setText(clinic.phone);
 }
 
 void AddClinicDialog::on_btnOk_clicked() {
@@ -24,7 +35,6 @@ void AddClinicDialog::on_btnOk_clicked() {
         return;
     }
 
-    // 联系电话非空时校验格式
     QString clinicPhone = ui->editPhone->text().trimmed();
     if (!clinicPhone.isEmpty()) {
         QRegularExpression phoneRe("^1[3-9]\\d{9}$");
@@ -39,7 +49,7 @@ void AddClinicDialog::on_btnOk_clicked() {
     resultClinic.doctorNo     = ui->editDoctorNo->text().trimmed();
     resultClinic.consultTime  = ui->editConsultTime->text().trimmed();
     resultClinic.capacity     = ui->spinCapacity->value();
-    resultClinic.currentCount = 0;
+    // currentCount 由 Clinic 构造函数初始化为 0，封装后不允许外部直接赋值
     resultClinic.address      = ui->editAddress->text().trimmed();
     resultClinic.phone        = clinicPhone;
 

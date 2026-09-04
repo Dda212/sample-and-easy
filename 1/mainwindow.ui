@@ -6,187 +6,340 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>600</height>
+    <width>1200</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>医院门诊预约管理系统</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>10</y>
-      <width>420</width>
-      <height>466</height>
-     </rect>
+   <layout class="QVBoxLayout" name="centralLayout">
+    <property name="spacing">
+     <number>12</number>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="leftMargin">
+     <number>16</number>
+    </property>
+    <property name="topMargin">
+     <number>16</number>
+    </property>
+    <property name="rightMargin">
+     <number>16</number>
+    </property>
+    <property name="bottomMargin">
+     <number>16</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="buttonRowLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupClinic">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>门诊管理</string>
+        </property>
+        <layout class="QHBoxLayout" name="clinicBtnLayout">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="btnViewClinics">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>查看所有门诊</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnAddClinic">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>添加门诊</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnEditClinic">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>编辑门诊</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnDeleteClinic">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>删除门诊</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBooking">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>预约管理</string>
+        </property>
+        <layout class="QHBoxLayout" name="bookingBtnLayout">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="btnBook">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>预约门诊</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnQuery">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>查询预约</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCancelAppoint">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>取消预约</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnExit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>90</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>退出系统</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWidget" name="queryContainer" native="true">
+      <property name="visible">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="queryLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QPushButton" name="btnViewClinics">
-         <property name="text">
-          <string>查看所有门诊</string>
+        <widget class="QLineEdit" name="editSearchPhone">
+         <property name="placeholderText">
+          <string>输入电话号码后按回车查询</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnAddClinic">
-         <property name="text">
-          <string>添加门诊</string>
+        <widget class="QComboBox" name="comboSearchClinic">
+         <property name="placeholderText">
+          <string>按门诊下拉框查询</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnBook">
-         <property name="text">
-          <string>预约门诊</string>
+        <widget class="QTableWidget" name="tableQuery">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnQuery">
-         <property name="text">
-          <string>查询预约</string>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnExit">
-         <property name="text">
-          <string>退出</string>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
          </property>
+         <column>
+          <property name="text">
+           <string>姓名</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>电话</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>性别</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>年龄</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>预约时间</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>所属门诊</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QTableWidget" name="tableQuery">
-       <property name="visible">
-        <bool>false</bool>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="tableClinics">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>门诊号</string>
        </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
+      </column>
+      <column>
+       <property name="text">
+        <string>门诊名称</string>
        </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
+      </column>
+      <column>
+       <property name="text">
+        <string>医生工号</string>
        </property>
-       <attribute name="verticalHeaderStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string>姓名</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>电话</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>性别</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>年龄</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>预约时间</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>所属门诊</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTableWidget" name="tableClinics">
-       <property name="alternatingRowColors">
-        <bool>true</bool>
+      </column>
+      <column>
+       <property name="text">
+        <string>接诊时间</string>
        </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+      </column>
+      <column>
+       <property name="text">
+        <string>容量</string>
        </property>
-       <attribute name="verticalHeaderStretchLastSection">
-        <bool>false</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string>门诊号</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>门诊名称</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>医生工号</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>接诊时间</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>容量</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>已预约</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>剩余号源</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="editSearchPhone">
-       <property name="visible">
-        <bool>false</bool>
+      </column>
+      <column>
+       <property name="text">
+        <string>已预约</string>
        </property>
-       <property name="placeholderText">
-        <string>输入电话号码后按回车查询</string>
+      </column>
+      <column>
+       <property name="text">
+        <string>剩余号源</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboSearchClinic">
-       <property name="visible">
-        <bool>false</bool>
-       </property>
-       <property name="placeholderText">
-        <string>按门诊下拉框查询</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+      </column>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>563</width>
-     <height>17</height>
+     <width>1200</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

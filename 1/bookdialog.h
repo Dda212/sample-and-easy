@@ -14,7 +14,7 @@ class BookDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit BookDialog(QList<Clinic> &clinics, QWidget *parent = nullptr);
+    explicit BookDialog(const QList<Clinic> &clinics, QWidget *parent = nullptr);
     ~BookDialog();
 
     int getSelectedClinicIndex() const;

@@ -2,12 +2,18 @@
 #include "ui_bookdialog.h"
 #include <QMessageBox>
 #include <QRegularExpression>
+#include <QDate>
 
-BookDialog::BookDialog(QList<Clinic> &clinics, QWidget *parent)
+BookDialog::BookDialog(const QList<Clinic> &clinics, QWidget *parent)
     : QDialog(parent), ui(new Ui::BookDialog),
     clinicList(clinics), selectedIndex(-1)
 {
     ui->setupUi(this);
+
+    // 预约日期：默认今天，范围限定为今天 ~ 一年后
+    ui->dateAppoint->setDate(QDate::currentDate());
+    ui->dateAppoint->setMinimumDate(QDate::currentDate());
+    ui->dateAppoint->setMaximumDate(QDate::currentDate().addYears(1));
 
     // 只有下拉框的选项需要代码动态填充（因为要过滤已满的门诊）
     ui->comboClinic->clear();
@@ -59,8 +65,10 @@ void BookDialog::on_btnOk_clicked() {
         QMessageBox::warning(this, "提示", "请输入有效的11位手机号码！");
         return;
     }
-    if (ui->editAppointTime->text().trimmed().isEmpty()) {
-        QMessageBox::warning(this, "提示", "预约时间不能为空！");
+    // 预约时间：由日期控件取值，控件已限制最小为今天，这里再做一次校验
+    const QDate appointDate = ui->dateAppoint->date();
+    if (appointDate < QDate::currentDate()) {
+        QMessageBox::warning(this, "提示", "预约日期不能早于今天！");
         return;
     }
 
@@ -68,7 +76,8 @@ void BookDialog::on_btnOk_clicked() {
     resultAppoint.phone       = phone;
     resultAppoint.gender      = ui->comboGender->currentText();
     resultAppoint.age         = ui->spinAge->value();
-    resultAppoint.appointTime = ui->editAppointTime->text().trimmed();
+    resultAppoint.appointTime = appointDate.toString("yyyy-MM-dd")
+                                + " " + ui->comboPeriod->currentText();
 
     this->accept();
 }
